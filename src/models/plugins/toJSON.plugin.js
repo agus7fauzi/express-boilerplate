@@ -2,7 +2,7 @@
 
 /**
  * A mongoose schema plugin which applies the following in the toJSON transform call:
- *  - removes __v any path that has private: true
+ *  - removes any path that has private: true
  */
 
 const deleteAtPath = (obj, path, index) => {
@@ -27,7 +27,6 @@ const toJSON = (schema) => {
         }
       });
 
-      // delete ret.__v;
       if (transform) {
         return transform(doc, ret, options);
       }
