@@ -5,7 +5,7 @@ const paginate = (schema) => {
    * @typedef {Object} QueryResult
    * @property {Document[]} results - Results found
    * @property {number} page - Current page
-   * @property {number} limit - Maximum number of results per page
+   * @property {number} paging - Maximum number of results per page
    * @property {number} totalPages - Total number of pages
    * @property {number} totalResults - Total number of documents
    */
@@ -15,7 +15,7 @@ const paginate = (schema) => {
    * @param {Object} [options] - Query options
    * @param {string} [options.sortBy] - Sorting criteria using the format: sortField:(desc|asc). Multiple sorting criteria should be separated by commas (,)
    * @param {string} [options.populate] - Populate data fields. Hierarchy of fields should be separated by (.). Multiple populating criteria should be separated by commas (,)
-   * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+   * @param {number} [options.paging] - Maximum number of results per page (default = 10)
    * @param {number} [options.page] - Current page (default = 1)
    * @returns {Promise<QueryResult>}
    */
@@ -32,7 +32,7 @@ const paginate = (schema) => {
       sort = 'createdAt'
     }
 
-    const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10
+    const limit = options.paging && parseInt(options.paging, 10) > 0 ? parseInt(options.paging, 10) : 10
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1
     const skip = (page - 1) * limit
 

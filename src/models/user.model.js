@@ -38,12 +38,12 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       enum: roles,
-      default: 'user',
+      default: 'user'
     },
     isEmailVerified: {
       type: Boolean,
       default: false
-    },
+    }
   },
   {
     timestamps: true
