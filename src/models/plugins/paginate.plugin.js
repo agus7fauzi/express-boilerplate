@@ -7,7 +7,7 @@ const paginate = (schema) => {
    * @property {number} page - Current page
    * @property {number} paging - Maximum number of results per page
    * @property {number} totalPages - Total number of pages
-   * @property {number} totalResults - Total number of documents
+   * @property {number} totalData - Total number of documents
    */
   /**
    * Query for documents with pagination
@@ -32,12 +32,12 @@ const paginate = (schema) => {
       sort = 'createdAt'
     }
 
-    const limit = options.paging && parseInt(options.paging, 10) > 0 ? parseInt(options.paging, 10) : 10
+    const paging = options.paging && parseInt(options.paging, 10) > 0 ? parseInt(options.paging, 10) : 10
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1
-    const skip = (page - 1) * limit
+    const skip = (page - 1) * paging
 
     const countPromise = this.countDocuments(filter).exec()
-    let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit)
+    let docsPromise = this.find(filter).sort(sort).skip(skip).limit(paging)
 
     if (options.populate) {
       options.populate.split(',').forEach((populateOption) => {
@@ -53,14 +53,14 @@ const paginate = (schema) => {
     docsPromise = docsPromise.exec()
 
     return Promise.all([countPromise, docsPromise]).then((values) => {
-      const [totalResults, results] = values
-      const totalPages = Math.ceil(totalResults / limit)
+      const [totalData, data] = values
+      const totalPages = Math.ceil(totalData / limit)
       const result = {
-        results,
+        data,
         page,
-        limit,
+        paging,
         totalPages,
-        totalResults
+        totalData
       }
       return Promise.resolve(result)
     })
